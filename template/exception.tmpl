@@ -1,0 +1,13 @@
+package ${basePackage}.exception;
+
+@SuppressWarnings("serial")
+public class GdiApplicationException extends Exception {
+
+	public GdiApplicationException(final Throwable th) {
+		super(th);
+	}
+
+	public GdiApplicationException(final String message, final Throwable th) {
+		super(message, th);
+	}
+}

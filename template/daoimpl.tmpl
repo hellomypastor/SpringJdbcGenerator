@@ -1,0 +1,186 @@
+package ${basePackage}.dao.impl;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+
+import ${basePackage}.dao.${modelClass}DAO;
+import ${basePackage}.model.${modelClass};
+
+public class ${modelClass}DAOImpl implements ${modelClass}DAO {
+	private static Logger logger = Logger.getLogger(${modelClass}DAOImpl.class);
+	private static   String EXISTS_SQL = "${existsSql}";
+	private static   String SELECT_BY_RANGE_PREFIX="SELECT * FROM (SELECT X.*, ROWNUM AS R FROM ( ";
+	private static   String SELECT_BY_RANGE_SUFFIX=" ) X) WHERE R BETWEEN ? AND ?";
+	private static   String SELECT_SQL = "${selectSql}";
+	private static   String INSERT_SQL = "${insertSql}";
+	private static   String UPDATE_SQL = "${updateSql}";
+	private static   String DELETE_SQL = "${deleteSql}";
+	private static   String COUNT_SQL = "${countSql}";
+	
+	
+	private JdbcTemplate jdbcTemplate;
+
+	public void setJdbcTemplate(final JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+	
+	public ${modelClass} insert(${modelClass} entity) throws Exception {
+		logger.debug("Entering ${modelClass}DAOImpl.insert");
+		List<Object> valueArr = prepareValueArrForInsert(entity);
+		logger.debug("Query is "+ INSERT_SQL);
+		int count = jdbcTemplate.update(INSERT_SQL, valueArr.toArray());
+		logger.debug("Record inserted : "+count);
+		logger.debug("Exiting ${modelClass}DAOImpl.insert");
+		return entity;
+	}
+
+	public ${modelClass} update(${modelClass} entity) throws Exception {
+		logger.debug("Entering ${modelClass}DAOImpl.update");
+		List<Object> valueArr = prepareValueArrForUpdate(entity);
+		logger.debug("Query is "+ UPDATE_SQL);
+		int count = jdbcTemplate.update(UPDATE_SQL, valueArr.toArray());
+		logger.debug("Record updated : "+count);
+		logger.debug("Exiting ${modelClass}DAOImpl.update");
+		return entity;
+	}
+
+	public int delete(${primaryKeyDef}) throws Exception {
+		logger.debug("Entering ${modelClass}DAOImpl.delete");
+		logger.debug("Query is "+ DELETE_SQL);
+		int count = jdbcTemplate.update(DELETE_SQL, new Object[]{${primaryKeyVal}});
+		logger.debug("Record deleted : "+count);
+		logger.debug("Exiting ${modelClass}DAOImpl.delete");
+		return count;
+	}
+
+	
+	public List<${modelClass}> findByCriteriaInRange(${modelClass} entity,int start,int end) throws Exception {
+		logger.debug("Entering ${modelClass}DAOImpl.findByCriteriaInRange");
+		StringBuilder query = new StringBuilder(SELECT_BY_RANGE_PREFIX);
+		query.append(SELECT_SQL);
+		query = prepareWhereClause(query.toString(),entity);
+		query.append(SELECT_BY_RANGE_SUFFIX);
+		List<Object> valueArr = prepareValueArrForSelect(entity);
+		valueArr.add(start);
+		valueArr.add(end);
+		logger.debug("Query is "+ query);
+		List<${modelClass}> list = jdbcTemplate.query(query.toString(), valueArr.toArray(),new ${modelClass}RowMapper());
+		logger.debug("Exiting ${modelClass}DAOImpl.findByCriteriaInRange");
+		return list;
+	}
+	
+	public List<${modelClass}> findByCriteria(${modelClass} entity) throws Exception {
+		logger.debug("Entering ${modelClass}DAOImpl.findByCriteria");
+		StringBuilder query = prepareWhereClause(SELECT_SQL,entity);
+		List<Object> valueArr = prepareValueArrForSelect(entity);
+		logger.debug("Query is "+ query);
+		List<${modelClass}> list = jdbcTemplate.query(query.toString(), valueArr.toArray(),new ${modelClass}RowMapper());
+		logger.debug("Exiting ${modelClass}DAOImpl.findByCriteria");
+		return list;
+	}
+	
+	public List<${modelClass}> findByLikeCriteria(${modelClass} entity) throws Exception {
+		logger.debug("Entering ${modelClass}DAOImpl.findByLikeCriteria");
+		StringBuilder query = prepareLikeWhereClause(SELECT_SQL,entity);
+		List<Object> valueArr = prepareValueArrForSelect(entity);
+		logger.debug("Query is "+ query);
+		List<${modelClass}> list = jdbcTemplate.query(query.toString(), valueArr.toArray(),new ${modelClass}RowMapper());
+		logger.debug("Exiting ${modelClass}DAOImpl.findByLikeCriteria");
+		return list;
+	}
+	
+	public List<${modelClass}> findAll() throws Exception {
+		logger.debug("Entering ${modelClass}DAOImpl.findAll");
+		logger.debug("Query is "+ SELECT_SQL);
+		List<${modelClass}> list = jdbcTemplate.query(SELECT_SQL, new ${modelClass}RowMapper());
+		logger.debug("Exiting ${modelClass}DAOImpl.findAll");
+		return list;
+	}
+
+	public long getCountForCriteria(${modelClass} entity) throws Exception {
+		logger.debug("Entering ${modelClass}DAOImpl.getCountForCriteria");
+		StringBuilder query = prepareWhereClause(COUNT_SQL,entity);
+		List<Object> valueArr = prepareValueArrForSelect(entity);
+		logger.debug("Query is "+ query);
+		long count =  jdbcTemplate.queryForLong(query.toString(), valueArr.toArray());
+		logger.debug("Exiting ${modelClass}DAOImpl.getCountForCriteria");
+		return count;
+	}
+
+	public boolean exists(${modelClass} entity) throws Exception {
+		logger.debug("Entering ${modelClass}DAOImpl.exists");
+		StringBuilder query = prepareWhereClause(COUNT_SQL,entity);
+		List<Object> valueArr = prepareValueArrForSelect(entity);
+		logger.debug("Query is "+ query);
+		long count = jdbcTemplate.queryForLong(query.toString(), valueArr.toArray());
+		logger.debug("Exiting ${modelClass}DAOImpl.exists");
+		return (count > 0);
+	}
+	
+	
+	private StringBuilder prepareWhereClause(String baseQuery, ${modelClass} entity) throws Exception {
+		logger.debug("Entering ${modelClass}DAOImpl.prepareWhereClause");
+		boolean isFirst = true;
+		StringBuilder query = new StringBuilder(baseQuery);
+		${whereClauseBlock}
+		logger.debug("Query is "+ query);
+		logger.debug("Exiting ${modelClass}DAOImpl.prepareWhereClause");
+		return query;
+	}
+	
+	private StringBuilder prepareLikeWhereClause(String baseQuery, ${modelClass} entity) throws Exception {
+		logger.debug("Entering ${modelClass}DAOImpl.prepareLikeWhereClause");
+		boolean isFirst = true;
+		StringBuilder query = new StringBuilder(baseQuery);
+		${whereClauseLikeBlock}
+		logger.debug("Query is "+ query);
+		logger.debug("Exiting ${modelClass}DAOImpl.prepareLikeWhereClause");
+		return query;
+	}
+	
+	private List<Object> prepareValueArrForSelect(${modelClass} entity) throws Exception {
+		logger.debug("Entering ${modelClass}DAOImpl.prepareValueArrForSelect");
+		List<Object> valueArr = new ArrayList<Object>();
+		${selectValArrPrepBlock}		
+		logger.debug("Value array is "+ valueArr);
+		logger.debug("Exiting ${modelClass}DAOImpl.prepareValueArrForSelect");
+		return valueArr;
+	}
+	
+	private List<Object> prepareValueArrForInsert(${modelClass} entity) throws Exception {
+		logger.debug("Entering ${modelClass}DAOImpl.prepareValueArrForSelect");
+		List<Object> valueArr = new ArrayList<Object>();
+		${insertValBlock}	
+		logger.debug("Value array is "+ valueArr);
+		logger.debug("Exiting ${modelClass}DAOImpl.prepareValueArrForSelect");
+		return valueArr;
+	}
+	
+	private List<Object> prepareValueArrForUpdate(${modelClass} entity) throws Exception {
+		logger.debug("Entering ${modelClass}DAOImpl.prepareValueArrForUpdate");
+		List<Object> valueArr = new ArrayList<Object>();
+		${updateValBlock}	
+		logger.debug("Value array is "+ valueArr);
+		logger.debug("Exiting ${modelClass}DAOImpl.prepareValueArrForUpdate");
+		return valueArr;
+	}
+	
+	private static class ${modelClass}RowMapper implements RowMapper<${modelClass}> {
+	
+		public ${modelClass} mapRow(ResultSet rs, int rownum) throws SQLException {
+			${modelClass} ${modelObject} = new ${modelClass}();
+		
+			${beanPopulation}
+		
+			return ${modelObject};
+		}
+	}
+}	
+	

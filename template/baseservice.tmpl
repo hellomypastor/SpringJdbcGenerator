@@ -1,0 +1,31 @@
+package com.app.generator.service;
+
+import java.util.List;
+import com.app.generator.exception.GdiApplicationException;
+
+public interface GdiService<T> {
+
+	T insert(T entity) throws GdiApplicationException;
+	
+	T update(T entity) throws GdiApplicationException;
+	
+	boolean delete(T entity) throws GdiApplicationException;
+	
+	T insertTask(T entity) throws GdiApplicationException;
+
+	List<String> validateTask(T entity) throws GdiApplicationException;
+
+	boolean submitTask(T entity) throws GdiApplicationException;
+
+	List<T> findByCriteriaInRange(T entity, int start, int end);
+
+	List<T> findByCriteria(T entity);
+
+	List<T> findByLikeCriteria(T entity);
+
+	List<T> findAll();
+
+	long getCountForCriteria(T entity);
+
+	boolean exists(T entity);
+}

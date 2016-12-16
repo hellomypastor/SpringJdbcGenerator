@@ -1,0 +1,94 @@
+package ${basePackage}.service.impl;
+
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
+import ${basePackage}.dao.${modelClass}DAO;
+import ${basePackage}.model.${modelClass};
+import ${basePackage}.service.${modelClass}Service;
+
+public class ${modelClass}ServiceImpl implements ${modelClass}Service {
+
+	private static Logger logger = Logger.getLogger(${modelClass}ServiceImpl.class);
+	
+	private ${modelClass}DAO ${modelPrefix}DAO;
+	
+	public void set${modelClass}DAO(final ${modelClass}DAO ${modelPrefix}DAO) {
+		this.${modelPrefix}DAO = ${modelPrefix}DAO;
+	}
+	
+	@Override
+	public ${modelClass} insert(final ${modelClass} ${modelPrefix}) throws Exception {
+		logger.debug("Entering ${modelClass}ServiceImpl.insert");
+		return null;
+	}
+	
+	@Override
+	public ${modelClass} update(final ${modelClass} ${modelPrefix}) throws Exception {
+		logger.debug("Entering ${modelClass}ServiceImpl.update");
+		return null;
+	}
+	
+	@Override
+	public boolean delete(${primaryKeyDef}) throws Exception {
+		logger.debug("Entering ${modelClass}ServiceImpl.delete");
+		return false;
+	}
+
+	@Override
+	public List<String> validate(final ${modelClass} ${modelPrefix}) throws Exception{
+		logger.debug("Entering ${modelClass}ServiceImpl.validateTask");
+		return null;
+	}
+	
+	@Override
+	public ${modelClass} submit(final ${modelClass} ${modelPrefix}) throws Exception{
+		logger.debug("Entering ${modelClass}ServiceImpl.submitTask");
+		return null;
+	}
+	
+	@Override
+	public ${modelClass} cancel(${modelClass} ${modelPrefix}) throws Exception {
+		return null;
+	}
+
+	@Override
+	public List<${modelClass}> findByCriteriaInRange(final ${modelClass} ${modelPrefix}, final int start, final int end) throws Exception {
+		logger.debug("Entering ${modelClass}ServiceImpl.findByCriteriaInRange");
+		return ${modelPrefix}DAO.findByCriteriaInRange(${modelPrefix},start,end);
+	}
+
+	@Override
+	public List<${modelClass}> findByCriteria(final ${modelClass} ${modelPrefix}) throws Exception {
+		logger.debug("Entering ${modelClass}ServiceImpl.findByCriteria");
+		return ${modelPrefix}DAO.findByCriteria(${modelPrefix});
+	}
+
+	@Override
+	public List<${modelClass}> findByLikeCriteria(final ${modelClass} ${modelPrefix}) throws Exception {
+		logger.debug("Entering ${modelClass}ServiceImpl.findByLikeCriteria");
+		return ${modelPrefix}DAO.findByLikeCriteria(${modelPrefix});
+	}
+
+	@Override
+	public List<${modelClass}> findAll() throws Exception {
+		logger.debug("Entering ${modelClass}ServiceImpl.findAll");
+		return ${modelPrefix}DAO.findAll();
+	}
+
+	@Override
+	public long getCountForCriteria(final ${modelClass} ${modelPrefix}) throws Exception {
+		logger.debug("Entering ${modelClass}ServiceImpl.getCountForCriteria");
+		return ${modelPrefix}DAO.getCountForCriteria(${modelPrefix});
+	}
+	
+	@Override
+	public boolean exists(final ${modelClass} ${modelPrefix}) throws Exception {
+		logger.debug("Entering ${modelClass}ServiceImpl.exists");
+		return ${modelPrefix}DAO.exists(${modelPrefix});
+	}
+	
+	
+
+}

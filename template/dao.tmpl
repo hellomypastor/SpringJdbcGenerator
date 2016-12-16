@@ -1,0 +1,27 @@
+package ${basePackage}.dao;
+
+import java.util.List;
+
+import ${basePackage}.model.${modelClass};
+
+public interface ${modelClass}DAO {
+
+	${modelClass} insert(${modelClass} entity) throws Exception ;
+
+	${modelClass} update(${modelClass} entity) throws Exception ;
+
+	int delete(${primaryKeyDef}) throws Exception ;
+
+	List<${modelClass}> findByCriteriaInRange(${modelClass} entity, int start, int end) throws Exception ;
+
+	List<${modelClass}> findByCriteria(${modelClass} entity) throws Exception ;
+	
+	List<${modelClass}> findByLikeCriteria(${modelClass} entity) throws Exception ;
+
+	List<${modelClass}> findAll() throws Exception ;
+
+	long getCountForCriteria(${modelClass} entity) throws Exception ;
+
+	boolean exists(${modelClass} entity) throws Exception ;
+}
+	

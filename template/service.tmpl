@@ -1,0 +1,31 @@
+package ${basePackage}.service;
+
+import java.util.List;
+import ${basePackage}.model.${modelClass};
+
+public interface ${modelClass}Service {
+
+	${modelClass} insert(${modelClass} ${modelPrefix}) throws Exception;
+
+	${modelClass} submit(${modelClass} ${modelPrefix}) throws Exception;
+
+	List<String> validate(${modelClass} ${modelPrefix}) throws Exception;
+
+	${modelClass} cancel(${modelClass} ${modelPrefix}) throws Exception;
+	
+	boolean delete(${primaryKeyDef}) throws Exception;
+
+	${modelClass} update(${modelClass} ${modelPrefix}) throws Exception;
+	
+	List<${modelClass}> findByCriteriaInRange(final ${modelClass} ${modelPrefix}, final int start, final int end) throws Exception;
+	
+	List<${modelClass}> findByCriteria(final ${modelClass} ${modelPrefix}) throws Exception;
+	
+	List<${modelClass}> findByLikeCriteria(final ${modelClass} ${modelPrefix}) throws Exception;
+	
+	List<${modelClass}> findAll() throws Exception;
+	
+	long getCountForCriteria(final ${modelClass} ${modelPrefix}) throws Exception;
+	
+	boolean exists(final ${modelClass} ${modelPrefix})  throws Exception;
+}

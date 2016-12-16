@@ -1,0 +1,72 @@
+package ${basePackage}.dao;
+
+import junit.framework.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
+
+
+@Transactional
+@TransactionConfiguration(defaultRollback = true)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:applicationContext-dao.xml" })
+public class ${modelClass}DaoTest {
+
+	@Autowired
+	private ${modelClass}DAO ${modelClassPrfx}Dao;
+	
+	@Test
+	public void testNotNull() {
+		Assert.assertNotNull(${modelClassPrfx}Dao);
+	}
+
+	@Test
+	public void insertTest(){
+		
+	}
+	
+	@Test
+	public void updateTest(){
+		
+	}
+	
+	@Test
+	public void deleteTest(){
+		
+	}
+	
+	@Test
+	public void findByCriteriaInRangeTest(){
+		
+	}
+	
+	@Test
+	public void findByCriteriaTest(){
+		
+	}
+	
+	@Test
+	public void findByLikeCriteriaTest(){
+		
+	}
+
+	@Test
+	public void findAllTest(){
+		
+	}	
+	
+	@Test
+	public void getCountForCriteriaTest(){
+		
+	}
+	
+	@Test
+	public void existsTest(){
+		
+	}
+	
+}

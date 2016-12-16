@@ -1,0 +1,22 @@
+package dao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import org.springframework.jdbc.core.RowMapper;
+
+import model.<modelclass>;
+
+public class <modelclass>RowMapper implements RowMapper<<modelclass>> {
+
+	<fieldconstants>
+	
+	@Override
+	public <modelclass> mapRow(ResultSet rs, int rownum) throws SQLException {
+		<modelclass> <modelobject> = new <modelclass>();
+		
+		<populatebean>
+		
+		return <modelobject>;
+	}
+
+}
